@@ -6,14 +6,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen'; 
 import HomeScreen from './screens/HomeScreen';
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import CartScreen from './screens/CartScreen';
-import { CartProvider } from './CartContext';
+import FavoritesScreen from './screens/FavoritesScreen';
 
-function DummyScreen() {
-  return null;
-}
+import { CartProvider } from './CartContext';
+import { FavoriteProvider } from './FavoriteContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -45,7 +45,7 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Favorites" component={DummyScreen} />
+      <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Cart" component={CartScreen} />
     </Tab.Navigator>
   );
@@ -59,23 +59,31 @@ export default function App() {
 
   return (
     <RootSiblingParent>
-      <CartProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {!isLoggedIn ? (
-              <Stack.Screen name="Login" component={LoginWrapper} />
-            ) : (
-              <Stack.Screen name="MainTabs" component={MainTabs} />
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </CartProvider>
+      <FavoriteProvider>
+        <CartProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              {!isLoggedIn ? (
+                <>
+                  <Stack.Screen name="Login" component={LoginWrapper} />
+                  <Stack.Screen name="Register" component={RegisterScreen} />
+                </>
+              ) : (
+                <Stack.Screen name="MainTabs" component={MainTabs} />
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </CartProvider>
+      </FavoriteProvider>
     </RootSiblingParent>
   );
 }
 
 function LoginWrapper({ navigation }) {
   return (
-    <LoginScreen navigation={navigation} onLoginSuccess={() => setIsLoggedInGlobal(true)} />
+    <LoginScreen
+      navigation={navigation}
+      onLoginSuccess={() => setIsLoggedInGlobal(true)}
+    />
   );
 }

@@ -10,21 +10,17 @@ import {
   Platform,
 } from 'react-native';
 
-export default function LoginScreen({ onLoginSuccess }) {
-  const [email, setEmail] = useState('');
+export default function LoginScreen({ navigation, onLoginSuccess }) {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const DUMMY_EMAIL = 'erenusul@gmail.com';
+  const DUMMY_USERNAME = 'erenusul';
   const DUMMY_PASSWORD = '123';
 
   const handleLogin = () => {
-    if (email !== DUMMY_EMAIL && password !== DUMMY_PASSWORD) {
-      setError('Kullanıcı adı ve şifre hatalı!');
-    } else if (email !== DUMMY_EMAIL) {
-      setError('Kullanıcı adı hatalı!');
-    } else if (password !== DUMMY_PASSWORD) {
-      setError('Kullanıcı adınız doğru ama şifrenizi unuttunuz sanırım.');
+    if (username !== DUMMY_USERNAME || password !== DUMMY_PASSWORD) {
+      setError('Kullanıcı adı veya şifre hatalı!');
     } else {
       setError('');
       onLoginSuccess();
@@ -44,9 +40,9 @@ export default function LoginScreen({ onLoginSuccess }) {
         <Text style={styles.title}>Hoş Geldiniz</Text>
 
         <TextInput
-          placeholder="E-posta"
-          value={email}
-          onChangeText={setEmail}
+          placeholder="Kullanıcı adı"
+          value={username}
+          onChangeText={setUsername}
           style={styles.input}
           placeholderTextColor="#ccc"
           autoCapitalize="none"
@@ -62,12 +58,14 @@ export default function LoginScreen({ onLoginSuccess }) {
           placeholderTextColor="#ccc"
         />
 
-        {error !== '' && (
-          <Text style={styles.errorText}>{error}</Text>
-        )}
+        {error !== '' && <Text style={styles.errorText}>{error}</Text>}
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Giriş Yap</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.registerLink}>Hesabınız yok mu? Kayıt olun</Text>
         </TouchableOpacity>
 
         <Text style={styles.footerText}>Doğal taşlarla zarif takılar</Text>
@@ -100,17 +98,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     color: '#fff',
   },
- errorText: {
-  backgroundColor: 'rgba(255, 77, 77, 0.85)', // 🔴 Belirgin kırmızı kutu
-  color: '#fff',
-  fontWeight: '600',
-  fontSize: 14,
-  marginBottom: 10,
-  paddingVertical: 10,
-  paddingHorizontal: 12,
-  borderRadius: 8,
-  textAlign: 'center',
-},
+  errorText: {
+    backgroundColor: 'rgba(255, 77, 77, 0.85)',
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 14,
+    marginBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    textAlign: 'center',
+  },
   button: {
     backgroundColor: '#FF8A00',
     borderRadius: 12,
@@ -122,6 +120,13 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
     fontSize: 16,
+  },
+  registerLink: {
+    color: '#fff',
+    marginTop: 20,
+    fontSize: 14,
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   footerText: {
     marginTop: 30,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { FavoriteContext } from '../FavoriteContext';
 
 const products = [
   {
@@ -25,6 +27,38 @@ const products = [
 ];
 
 export default function HomeScreen({ navigation }) {
+  const { favorites, toggleFavorite } = useContext(FavoriteContext);
+
+  const renderItem = ({ item }) => {
+    const isFavorited = favorites.some((fav) => fav.id === item.id);
+
+    return (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() => navigation.navigate('ProductDetail', { product: item })}
+      >
+        <Image source={item.image} style={styles.image} />
+
+        {/* Kalp butonu */}
+        <TouchableOpacity
+          onPress={() => toggleFavorite(item)}
+          style={styles.favoriteIcon}
+        >
+          <View style={styles.iconWrapper}>
+            <Ionicons
+              name={isFavorited ? 'heart' : 'heart-outline'}
+              size={20}
+              color={isFavorited ? '#FF3B30' : '#FF8A00'}
+            />
+          </View>
+        </TouchableOpacity>
+
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.price}>{item.price}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>DOĞAL TAŞ KOLEKSİYONU</Text>
@@ -35,16 +69,7 @@ export default function HomeScreen({ navigation }) {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: 16 }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() => navigation.navigate('ProductDetail', { product: item })}
-          >
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>{item.price}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
@@ -83,5 +108,24 @@ const styles = StyleSheet.create({
     marginTop: 4,
     color: '#FF8A00',
     fontWeight: '600',
+  },
+  favoriteIcon: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.95)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  iconWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
