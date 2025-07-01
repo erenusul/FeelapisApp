@@ -1,3 +1,4 @@
+// screens/HomeScreen.js
 import React, { useContext } from 'react';
 import {
   View,
@@ -8,8 +9,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { FavoriteContext } from '../FavoriteContext';
+import AnimatedHeart from '../components/AnimatedHeart';
 
 const products = [
   {
@@ -44,13 +45,7 @@ export default function HomeScreen({ navigation }) {
           onPress={() => toggleFavorite(item)}
           style={styles.favoriteIcon}
         >
-          <View style={styles.iconWrapper}>
-            <Ionicons
-              name={isFavorited ? 'heart' : 'heart-outline'}
-              size={20}
-              color={isFavorited ? '#FF3B30' : '#FF8A00'}
-            />
-          </View>
+          <AnimatedHeart active={isFavorited} onPress={() => toggleFavorite(item)} />
         </TouchableOpacity>
 
         <Text style={styles.name}>{item.name}</Text>
@@ -123,9 +118,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
-  },
-  iconWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

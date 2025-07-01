@@ -11,6 +11,7 @@ import HomeScreen from './screens/HomeScreen';
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import CartScreen from './screens/CartScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 import { CartProvider } from './CartContext';
 import { FavoriteProvider } from './FavoriteContext';
@@ -28,25 +29,30 @@ function HomeStackScreen() {
   );
 }
 
-function MainTabs() {
+function MainTabs({ setIsLoggedIn }) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          if (route.name === 'Home') iconName = 'home-outline';
-          else if (route.name === 'Favorites') iconName = 'heart-outline';
-          else if (route.name === 'Cart') iconName = 'cart-outline';
+          if (route.name === 'Anasayfa') iconName = 'home-outline';
+          else if (route.name === 'Favoriler') iconName = 'heart-outline';
+          else if (route.name === 'Sepet') iconName = 'cart-outline';
+          else if (route.name === 'Profil') iconName = 'person-outline';
+
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#FF8A00',
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Cart" component={CartScreen} />
+      <Tab.Screen name="Anasayfa" component={HomeStackScreen} />
+      <Tab.Screen name="Favoriler" component={FavoritesScreen} />
+      <Tab.Screen name="Sepet" component={CartScreen} />
+      <Tab.Screen name="Profil">
+        {props => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
@@ -62,14 +68,21 @@ export default function App() {
       <FavoriteProvider>
         <CartProvider>
           <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                animation: 'fade',  // Burada animasyon ekledik
+              }}
+            >
               {!isLoggedIn ? (
                 <>
                   <Stack.Screen name="Login" component={LoginWrapper} />
                   <Stack.Screen name="Register" component={RegisterScreen} />
                 </>
               ) : (
-                <Stack.Screen name="MainTabs" component={MainTabs} />
+                <Stack.Screen name="MainTabs">
+                  {props => <MainTabs {...props} setIsLoggedIn={setIsLoggedIn} />}
+                </Stack.Screen>
               )}
             </Stack.Navigator>
           </NavigationContainer>

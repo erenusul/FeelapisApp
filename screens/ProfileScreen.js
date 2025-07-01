@@ -1,0 +1,396 @@
+import React, { useState, useContext } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Modal,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import { CartContext } from '../CartContext';
+import { FavoriteContext } from '../FavoriteContext';
+
+export default function ProfileScreen({ navigation, setIsLoggedIn }) {
+  const { cartItems } = useContext(CartContext);
+  const { favorites } = useContext(FavoriteContext);
+
+  // Kullanıcı bilgileri (dummy)
+  const [username, setUsername] = useState('erenusul');
+  const [email, setEmail] = useState('erenusul@gmail.com');
+
+  // Şifre değiştirme modalı
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Kart ekleme modalı
+  const [showCardModal, setShowCardModal] = useState(false);
+  const [cardName, setCardName] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [savedCards, setSavedCards] = useState([]);
+
+  // Şifre değiştirme fonksiyonu (dummy)
+  const handleChangePassword = () => {
+    if (newPassword.length < 4) {
+      Alert.alert('Hata', 'Şifre en az 4 karakter olmalı.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      Alert.alert('Hata', 'Şifreler eşleşmiyor.');
+      return;
+    }
+    Alert.alert('Başarılı', 'Şifre değiştirildi.');
+    setShowPasswordModal(false);
+    setNewPassword('');
+    setConfirmPassword('');
+  };
+
+  // Kart ekleme fonksiyonu
+  const handleAddCard = () => {
+    if (!cardName || !cardNumber || !expiryDate) {
+      Alert.alert('Hata', 'Lütfen tüm kart bilgilerini doldurun.');
+      return;
+    }
+    setSavedCards((prev) => [
+      ...prev,
+      { id: Date.now().toString(), cardName, cardNumber, expiryDate },
+    ]);
+    setShowCardModal(false);
+    setCardName('');
+    setCardNumber('');
+    setExpiryDate('');
+  };
+
+  // Kart silme fonksiyonu
+  const handleDeleteCard = (id) => {
+    Alert.alert(
+      'Kart Sil',
+      'Bu kartı silmek istediğinize emin misiniz?',
+      [
+        { text: 'İptal', style: 'cancel' },
+        {
+          text: 'Sil',
+          style: 'destructive',
+          onPress: () => {
+            setSavedCards((prev) => prev.filter((card) => card.id !== id));
+          },
+        },
+      ]
+    );
+  };
+
+  // Çıkış yapma fonksiyonu
+  const handleLogout = () => {
+    setIsLoggedIn(false); // Bu sayede login ekranına yönlenir
+  };
+
+  return (
+    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+      {/* Profil Foto */}
+      <View style={styles.profilePhotoContainer}>
+        <Image
+          source={require('../assets/Ekran Resmi 2025-07-01 16.31.45.png')} // Profil resmini uygun şekilde koyabilirsin
+          style={styles.profilePhoto}
+        />
+      </View>
+
+      {/* Kullanıcı Bilgileri */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Profil Bilgileri</Text>
+
+        <View style={styles.row}>
+          <Text style={styles.label}>Kullanıcı Adı:</Text>
+          <Text style={styles.value}>{username}</Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.label}>E-posta:</Text>
+          <Text style={styles.value}>{email}</Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.actionButton}
+          onPress={() => setShowPasswordModal(true)}
+        >
+          <Text style={styles.actionButtonText}>Şifre Değiştir</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Sepet & Favoriler */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Sepet & Favoriler</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Sepetteki Ürün Sayısı:</Text>
+          <Text style={styles.value}>{cartItems.length}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Favorilerdeki Ürün Sayısı:</Text>
+          <Text style={styles.value}>{favorites.length}</Text>
+        </View>
+      </View>
+
+      {/* Ödeme Kartları */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Ödeme Kart Bilgileri</Text>
+
+        {savedCards.length === 0 && (
+          <Text style={{ marginBottom: 10, color: '#888' }}>Kart eklenmedi</Text>
+        )}
+
+        {savedCards.map((card) => (
+          <View key={card.id} style={styles.cardItem}>
+            <Text style={styles.cardText}>
+              {card.cardName} - {card.cardNumber} (Son: {card.expiryDate})
+            </Text>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => handleDeleteCard(card.id)}
+            >
+              <Text style={styles.deleteButtonText}>Sil</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+
+        <TouchableOpacity
+          style={[styles.actionButton, { backgroundColor: '#FF8A00' }]}
+          onPress={() => setShowCardModal(true)}
+        >
+          <Text style={[styles.actionButtonText, { color: '#fff' }]}>Kart Ekle</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Çıkış Yap */}
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutButtonText}>Çıkış Yap</Text>
+      </TouchableOpacity>
+
+      {/* Şifre Değiştirme Modal */}
+      <Modal
+        visible={showPasswordModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowPasswordModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Şifre Değiştir</Text>
+
+            <TextInput
+              placeholder="Yeni Şifre"
+              secureTextEntry
+              style={styles.modalInput}
+              value={newPassword}
+              onChangeText={setNewPassword}
+            />
+            <TextInput
+              placeholder="Yeni Şifre (Tekrar)"
+              secureTextEntry
+              style={styles.modalInput}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: '#FF8A00' }]}
+              onPress={handleChangePassword}
+            >
+              <Text style={[styles.actionButtonText, { color: '#fff' }]}>Kaydet</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: '#ccc', marginTop: 10 }]}
+              onPress={() => setShowPasswordModal(false)}
+            >
+              <Text style={[styles.actionButtonText, { color: '#000' }]}>İptal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Kart Ekleme Modal */}
+      <Modal
+        visible={showCardModal}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setShowCardModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Kart Ekle</Text>
+
+            <TextInput
+              placeholder="Kart Sahibi Adı"
+              style={styles.modalInput}
+              value={cardName}
+              onChangeText={setCardName}
+            />
+            <TextInput
+              placeholder="Kart Numarası"
+              style={styles.modalInput}
+              keyboardType="numeric"
+              value={cardNumber}
+              onChangeText={setCardNumber}
+            />
+            <TextInput
+              placeholder="Son Kullanma Tarihi (AA/YY)"
+              style={styles.modalInput}
+              value={expiryDate}
+              onChangeText={setExpiryDate}
+            />
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: '#FF8A00' }]}
+              onPress={handleAddCard}
+            >
+              <Text style={[styles.actionButtonText, { color: '#fff' }]}>Kaydet</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.actionButton, { backgroundColor: '#ccc', marginTop: 10 }]}
+              onPress={() => setShowCardModal(false)}
+            >
+              <Text style={[styles.actionButtonText, { color: '#000' }]}>İptal</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#FFF6EC',
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  },
+  profilePhotoContainer: {
+    alignItems: 'center',
+    marginTop: 40,
+    marginBottom: 30,
+    justifyContent: 'center',
+  },
+  profilePhoto: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: '#ddd',
+  },
+  section: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 20,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 14,
+    color: '#222',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 1,
+  },
+  label: {
+    color: '#555',
+    fontWeight: '600',
+    fontSize: 16,
+  },
+  value: {
+    fontWeight: '600',
+    fontSize: 16,
+    color: '#000',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#FF8A00',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    fontSize: 16,
+  },
+  actionButton: {
+    backgroundColor: '#FF8A00',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  actionButtonText: {
+    fontWeight: '600',
+    fontSize: 16,
+    color: '#fff',
+  },
+  logoutButton: {
+    backgroundColor: '#E94B4B',
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    paddingHorizontal: 30,
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 20,
+  },
+  modalTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: '#FF8A00',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    fontSize: 16,
+  },
+  cardItem: {
+    backgroundColor: '#fff',
+    padding: 10,
+    borderRadius: 12,
+    marginBottom: 10,
+    elevation: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cardText: {
+    fontWeight: '600',
+  },
+  deleteButton: {
+    backgroundColor: '#E94B4B',
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 14,
+  },
+  deleteButtonText: {
+    color: '#fff',
+    fontWeight: '700',
+  },
+});
