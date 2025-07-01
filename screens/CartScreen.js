@@ -1,0 +1,86 @@
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { CartContext } from '../CartContext';
+
+export default function CartScreen() {
+  const { cartItems, removeFromCart } = useContext(CartContext);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Sepetim</Text>
+
+      {cartItems.length === 0 ? (
+        <Text style={styles.emptyText}>Sepetiniz şu anda boş.</Text>
+      ) : (
+        <FlatList
+          data={cartItems}
+          keyExtractor={(item, index) => `${item.id}-${index}`}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <Image source={item.image} style={styles.image} />
+              <View style={styles.info}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.price}>{item.price}</Text>
+              </View>
+              <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.deleteBtn}>
+                <Ionicons name="trash-outline" size={24} color="#FF3B30" />
+              </TouchableOpacity>
+            </View>
+          )}
+          contentContainerStyle={{ paddingBottom: 40 }}
+        />
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FDF6ED',
+    paddingTop: 60,
+    paddingHorizontal: 16,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+    marginBottom: 24,
+  },
+  emptyText: {
+    textAlign: 'center',
+    marginTop: 40,
+    fontSize: 16,
+    color: '#888',
+  },
+  item: {
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    marginBottom: 12,
+    borderRadius: 12,
+    padding: 12,
+    elevation: 2,
+    alignItems: 'center',
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  info: {
+    flex: 1,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  price: {
+    marginTop: 4,
+    color: '#FF8A00',
+    fontWeight: '600',
+  },
+  deleteBtn: {
+    padding: 4,
+  },
+});
