@@ -8,6 +8,7 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
 
 export default function LoginScreen({ navigation, onLoginSuccess }) {
@@ -37,6 +38,12 @@ export default function LoginScreen({ navigation, onLoginSuccess }) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
+        {/* Logo Eklendi */}
+        <Image
+          source={require('../assets/logoson1.png')}  // Burada logo dosyanın adı olabilir
+          style={styles.logo}
+        />
+
         <Text style={styles.title}>Hoş Geldiniz</Text>
 
         <TextInput
@@ -84,11 +91,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     justifyContent: 'center',
   },
+
+  logo: {
+    width: 250,
+    height: 250,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    marginBottom: -10,
+  },
+
   title: {
     fontSize: 28,
     color: '#fff',
     marginBottom: 40,
     fontWeight: '600',
+    textAlign: 'left',
   },
   input: {
     height: 50,
