@@ -18,6 +18,8 @@ import { FavoriteProvider } from './FavoriteContext';
 
 import PurchaseScreen from './screens/PurchaseScreen';
 
+import CustomDesignScreen from './screens/CustomDesignScreen';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -28,6 +30,7 @@ function HomeStackScreen() {
     <HomeStack.Navigator screenOptions={{ headerShown: false }}>
       <HomeStack.Screen name="HomeMain" component={HomeScreen} />
       <HomeStack.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <HomeStack.Screen name="CustomDesign" component={CustomDesignScreen} />
     </HomeStack.Navigator>
   );
 }

@@ -84,7 +84,18 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>DOĞAL TAŞ KOLEKSİYONU</Text>
+      <View style={styles.titleWrapper}>
+        <Text style={styles.title}>DOĞAL TAŞ KOLEKSİYONU</Text>
+        <View style={styles.underline} />
+      </View>
+
+      {/* Kendi Tasarımını Oluştur Butonu */}
+      <TouchableOpacity
+        style={styles.customDesignButton}
+        onPress={() => navigation.navigate('CustomDesign')}
+      >
+        <Text style={styles.customDesignButtonText}>Kendi Tasarımını Oluştur</Text>
+      </TouchableOpacity>
 
       <FlatList
         data={products}
@@ -105,17 +116,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#FDF6ED',
     paddingTop: 60,
   },
+  titleWrapper: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
   title: {
     fontSize: 20,
     fontWeight: '600',
-    textAlign: 'center',
-    paddingTop: 17,
-    marginBottom: 16,
     color: '#FF8A00',
-    borderBottomColor: '#FF8A00',
-    borderBottomWidth: 2,
-    paddingBottom: 10,
+    marginTop: 15,
     fontFamily: 'Pacifico', // Varsa kalabilir
+  },
+  underline: {
+    height: 2,
+    width: '70%',       // Çizginin sağdan soldan kırpılmış genişliği
+    backgroundColor: '#FF8A00',
+    marginTop: 4,
+    borderRadius: 1,
+  },
+  customDesignButton: {
+    backgroundColor: '#FF8A00',
+    paddingVertical: 14,
+    marginHorizontal: 20,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  customDesignButtonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
   },
   card: {
     width: CARD_WIDTH,

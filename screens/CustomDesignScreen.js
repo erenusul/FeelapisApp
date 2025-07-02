@@ -1,0 +1,223 @@
+import React, { useState } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    FlatList,
+    Image,
+    TouchableOpacity,
+    Dimensions,
+    ScrollView,
+} from 'react-native';
+
+const stones = [
+    { id: '1', name: 'Yeşim Taşı', image: require('../assets/yesim.png') },
+    { id: '2', name: 'Akuamarin', image: require('../assets/akuamarin.png') },
+    { id: '3', name: 'Ametist', image: require('../assets/ametist.png') },
+    { id: '4', name: 'Lapis Lazuli', image: require('../assets/lapis.png') },
+    { id: '5', name: 'Obsidyen', image: require('../assets/obsidyen.png') },
+    { id: '6', name: 'Tanzanit', image: require('../assets/tanzanit.png') },
+];
+
+const threads = [
+    { id: '1', name: 'Normal İp' },
+    { id: '2', name: 'Örgü İp' },
+    { id: '3', name: 'Naylon İp' },
+];
+
+const { width } = Dimensions.get('window');
+const CARD_MARGIN = 12;
+const CARD_WIDTH = (width - CARD_MARGIN * 3) / 2;
+
+export default function CustomDesignScreen() {
+    const [selectedStones, setSelectedStones] = useState([]);
+    const [selectedThread, setSelectedThread] = useState(null);
+
+    const toggleStone = (id) => {
+        if (selectedStones.includes(id)) {
+            setSelectedStones(selectedStones.filter((sid) => sid !== id));
+        } else {
+            setSelectedStones([...selectedStones, id]);
+        }
+    };
+
+    return (
+        <ScrollView style={styles.container}>
+            <View style={styles.titleWrapper}>
+                <Text style={styles.header}>Taş Seçin</Text>
+                <View style={styles.underline} />
+            </View>
+            <FlatList
+                data={stones}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => {
+                    const isSelected = selectedStones.includes(item.id);
+                    return (
+                        <TouchableOpacity
+                            style={[styles.card, isSelected && styles.cardSelected]}
+                            onPress={() => toggleStone(item.id)}
+                        >
+                            <Image source={item.image} style={styles.image} />
+                            <Text style={styles.name}>{item.name}</Text>
+                        </TouchableOpacity>
+                    );
+                }}
+                numColumns={2}
+                scrollEnabled={false}
+                contentContainerStyle={{ paddingHorizontal: CARD_MARGIN }}
+                columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: CARD_MARGIN }}
+            />
+
+            <View style={styles.titleWrapper}>
+                <Text style={styles.header}>İp Çeşidi Seçin</Text>
+                <View style={styles.underline} />
+            </View>
+            <View style={styles.threadContainer}>
+                {threads.map((thread) => {
+                    const isSelected = selectedThread === thread.id;
+                    return (
+                        <TouchableOpacity
+                            key={thread.id}
+                            style={[styles.threadBox, isSelected && styles.threadBoxSelected]}
+                            onPress={() => setSelectedThread(thread.id)}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={[styles.threadText, isSelected && styles.threadTextSelected]}>
+                                {thread.name}
+                            </Text>
+                            {isSelected && <Text style={styles.checkMark}>✓</Text>}
+                        </TouchableOpacity>
+                    );
+                })}
+            </View>
+
+            <TouchableOpacity
+                style={styles.saveButton}
+                onPress={() => {
+                    const selectedStoneNames = selectedStones
+                        .map(id => stones.find(stone => stone.id === id)?.name)
+                        .filter(Boolean); // boş değerleri atar
+
+                    alert(
+                        `Seçilen taşlar: ${selectedStoneNames.join(', ')}\nSeçilen ip çeşidi: ${selectedThread ? threads.find(t => t.id === selectedThread).name : 'Yok'}`
+                    );
+                }}
+            >
+                <Text style={styles.saveButtonText}>Tasarımi Kaydet</Text>
+            </TouchableOpacity>
+        </ScrollView>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: { flex: 1, backgroundColor: '#FFF9F0', paddingTop: 30 },
+
+    titleWrapper: {
+        alignItems: 'center',
+        marginBottom: 16,
+        marginTop: 50,
+        width: '100%',
+    },
+
+    header: {
+        fontSize: 22,
+        fontWeight: '700',
+        color: '#FF8A00',
+        marginBottom: 8,
+        textAlign: 'center',
+    },
+
+    underline: {
+        height: 2,
+        width: '70%',
+        borderBottomWidth: 2,
+        borderBottomColor: '#FF8A00',
+        // borderStyle: 'dashed', // bunu kaldır
+        borderRadius: 1,
+        alignSelf: 'center', // çizginin ortalanması için
+        marginTop: 4,
+    },
+
+    card: {
+        width: CARD_WIDTH,
+        borderWidth: 1,
+        borderColor: '#FF8A00',
+        borderRadius: 16,
+        padding: 12,
+        alignItems: 'center',
+        backgroundColor: '#fff',
+    },
+    cardSelected: {
+        backgroundColor: '#FFF0D9',
+    },
+
+    image: {
+        width: '100%',
+        height: 100,
+        borderRadius: 12,
+        marginBottom: 8,
+    },
+
+    name: {
+        fontWeight: '600',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+
+    threadContainer: {
+        marginBottom: 40,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        gap: 10,
+    },
+    threadBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#FF8A00',
+        borderRadius: 12,
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        minWidth: 120,
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+    },
+    threadBoxSelected: {
+        backgroundColor: '#FF8A00',
+        shadowColor: '#FF8A00',
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 5 },
+    },
+    threadText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#FF8A00',
+    },
+    threadTextSelected: {
+        color: '#fff',
+    },
+    checkMark: {
+        fontSize: 20,
+        color: '#fff',
+        marginLeft: 10,
+        fontWeight: '900',
+    },
+
+    saveButton: {
+        backgroundColor: '#FF8A00',
+        marginHorizontal: 30,
+        paddingVertical: 14,
+        borderRadius: 14,
+        alignItems: 'center',
+        marginBottom: 30,
+    },
+
+    saveButtonText: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 18,
+    },
+});
