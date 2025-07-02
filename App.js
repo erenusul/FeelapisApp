@@ -16,6 +16,8 @@ import ProfileScreen from './screens/ProfileScreen';
 import { CartProvider } from './CartContext';
 import { FavoriteProvider } from './FavoriteContext';
 
+import FallingStones from './components/FallingStones';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
