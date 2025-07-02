@@ -6,6 +6,46 @@ import { CartContext } from '../CartContext';
 export default function CartScreen({ navigation }) {
   const { cartItems, removeFromCart } = useContext(CartContext);
 
+  const renderItem = ({ item }) => {
+    const price = typeof item.price === 'number' ? item.price : parseFloat(item.price) || 0;
+
+    return (
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => navigation.navigate('Purchase', { product: item })}
+      >
+        <Image
+          source={
+            item.isCustomDesign
+              ? require('../assets/kisiseltasarim.png')
+              : item.image
+          }
+          style={styles.image}
+        />
+        <View style={styles.info}>
+          <Text style={styles.name}>{item.name}</Text>
+
+          {/* Özel tasarım ürünü ise taşlar ve ip bilgisini göster */}
+          {item.isCustomDesign && item.stones && item.thread ? (
+            <>
+              <Text style={styles.details}>
+                Taşlar: {item.stones.map(s => s.name).join(', ')}
+              </Text>
+              <Text style={styles.details}>
+                İp: {item.thread.name}
+              </Text>
+            </>
+          ) : null}
+
+          <Text style={styles.price}>₺{price.toFixed(2)}</Text>
+        </View>
+        <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.deleteBtn}>
+          <Ionicons name="trash-outline" size={24} color="#FF3B30" />
+        </TouchableOpacity>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sepetim</Text>
@@ -16,21 +56,7 @@ export default function CartScreen({ navigation }) {
         <FlatList
           data={cartItems}
           keyExtractor={(item, index) => `${item.id}-${index}`}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigation.navigate('Purchase', { product: item })}
-            >
-              <Image source={item.image} style={styles.image} />
-              <View style={styles.info}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.price}>{item.price}</Text>
-              </View>
-              <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.deleteBtn}>
-                <Ionicons name="trash-outline" size={24} color="#FF3B30" />
-              </TouchableOpacity>
-            </TouchableOpacity>
-          )}
+          renderItem={renderItem}
           contentContainerStyle={{ paddingBottom: 40 }}
         />
       )}
@@ -77,6 +103,10 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '500',
+  },
+  details: {
+    fontSize: 14,
+    color: '#555',
   },
   price: {
     marginTop: 4,

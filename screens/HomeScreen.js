@@ -16,37 +16,37 @@ const products = [
   {
     id: '1',
     name: 'Yeşim Taşı Kolye',
-    price: '₺250,00',
+    price: '250,00',
     image: require('../assets/yesim.png'),
   },
   {
     id: '2',
     name: 'Akuamarin Bileklik',
-    price: '₺245,50',
+    price: '245,50',
     image: require('../assets/akuamarin.png'),
   },
   {
     id: '3',
     name: 'Ametist Bileklik',
-    price: '₺250,00',
+    price: '250,00',
     image: require('../assets/ametist.png'),
   },
   {
     id: '4',
     name: 'Lapis Lazuli Kolye',
-    price: '₺300,00',
+    price: '300,00',
     image: require('../assets/lapis.png'),
   },
   {
     id: '5',
     name: 'Obsidyen Bileklik',
-    price: '₺275,00',
+    price: '275,00',
     image: require('../assets/obsidyen.png'),
   },
   {
     id: '6',
     name: 'Tanzanit Kolye',
-    price: '₺280,00',
+    price: '280,00',
     image: require('../assets/tanzanit.png'),
   },
 ];

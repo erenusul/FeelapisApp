@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View,
     Text,
@@ -9,20 +9,21 @@ import {
     Dimensions,
     ScrollView,
 } from 'react-native';
+import { CartContext } from '../CartContext';
 
 const stones = [
-    { id: '1', name: 'Yeşim Taşı', image: require('../assets/yesim.png') },
-    { id: '2', name: 'Akuamarin', image: require('../assets/akuamarin.png') },
-    { id: '3', name: 'Ametist', image: require('../assets/ametist.png') },
-    { id: '4', name: 'Lapis Lazuli', image: require('../assets/lapis.png') },
-    { id: '5', name: 'Obsidyen', image: require('../assets/obsidyen.png') },
-    { id: '6', name: 'Tanzanit', image: require('../assets/tanzanit.png') },
+    { id: '1', name: 'Yeşim Taşı', image: require('../assets/yesim.png'), price: 100 },
+    { id: '2', name: 'Akuamarin', image: require('../assets/akuamarin.png'), price: 150 },
+    { id: '3', name: 'Ametist', image: require('../assets/ametist.png'), price: 120 },
+    { id: '4', name: 'Lapis Lazuli', image: require('../assets/lapis.png'), price: 130 },
+    { id: '5', name: 'Obsidyen', image: require('../assets/obsidyen.png'), price: 110 },
+    { id: '6', name: 'Tanzanit', image: require('../assets/tanzanit.png'), price: 100 },
 ];
 
 const threads = [
-    { id: '1', name: 'Normal İp' },
-    { id: '2', name: 'Örgü İp' },
-    { id: '3', name: 'Naylon İp' },
+    { id: '1', name: 'Normal İp', price: 20 },
+    { id: '2', name: 'Örgü İp', price: 25 },
+    { id: '3', name: 'Naylon İp', price: 15 },
 ];
 
 const { width } = Dimensions.get('window');
@@ -32,6 +33,7 @@ const CARD_WIDTH = (width - CARD_MARGIN * 3) / 2;
 export default function CustomDesignScreen() {
     const [selectedStones, setSelectedStones] = useState([]);
     const [selectedThread, setSelectedThread] = useState(null);
+    const { addToCart } = useContext(CartContext);
 
     const toggleStone = (id) => {
         if (selectedStones.includes(id)) {
@@ -39,6 +41,42 @@ export default function CustomDesignScreen() {
         } else {
             setSelectedStones([...selectedStones, id]);
         }
+    };
+
+    const totalPrice =
+        selectedStones.reduce((sum, id) => {
+            const stone = stones.find(s => s.id === id);
+            return sum + (stone ? stone.price : 0);
+        }, 0) + (selectedThread ? threads.find(t => t.id === selectedThread)?.price || 0 : 0);
+
+    const handleAddToCart = () => {
+        if (selectedStones.length === 0) {
+            alert('Lütfen en az bir taş seçin.');
+            return;
+        }
+        if (!selectedThread) {
+            alert('Lütfen bir ip çeşidi seçin.');
+            return;
+        }
+
+        const selectedStoneObjects = stones.filter(s => selectedStones.includes(s.id));
+        const threadObject = threads.find(t => t.id === selectedThread);
+
+        const customProduct = {
+            id: `custom_${Date.now()}`,
+            name: 'Özel Tasarım Takı',
+            stones: selectedStoneObjects,
+            thread: threadObject,
+            price: Number(totalPrice),
+            isCustomDesign: true,
+            image: require('../assets/kisiseltasarim.png'),
+        };
+
+        addToCart(customProduct);
+        alert(`Ürün sepete eklendi!\nToplam fiyat: ₺${totalPrice}`);
+
+        setSelectedStones([]);
+        setSelectedThread(null);
     };
 
     return (
@@ -91,19 +129,10 @@ export default function CustomDesignScreen() {
                 })}
             </View>
 
-            <TouchableOpacity
-                style={styles.saveButton}
-                onPress={() => {
-                    const selectedStoneNames = selectedStones
-                        .map(id => stones.find(stone => stone.id === id)?.name)
-                        .filter(Boolean); // boş değerleri atar
+            <Text style={styles.totalPrice}>Toplam Fiyat: ₺{totalPrice}</Text>
 
-                    alert(
-                        `Seçilen taşlar: ${selectedStoneNames.join(', ')}\nSeçilen ip çeşidi: ${selectedThread ? threads.find(t => t.id === selectedThread).name : 'Yok'}`
-                    );
-                }}
-            >
-                <Text style={styles.saveButtonText}>Tasarımi Kaydet</Text>
+            <TouchableOpacity style={styles.saveButton} onPress={handleAddToCart}>
+                <Text style={styles.saveButtonText}>Sepete Ekle</Text>
             </TouchableOpacity>
         </ScrollView>
     );
@@ -132,9 +161,8 @@ const styles = StyleSheet.create({
         width: '70%',
         borderBottomWidth: 2,
         borderBottomColor: '#FF8A00',
-        // borderStyle: 'dashed', // bunu kaldır
         borderRadius: 1,
-        alignSelf: 'center', // çizginin ortalanması için
+        alignSelf: 'center',
         marginTop: 4,
     },
 
@@ -204,6 +232,14 @@ const styles = StyleSheet.create({
         color: '#fff',
         marginLeft: 10,
         fontWeight: '900',
+    },
+
+    totalPrice: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: '#FF8A00',
+        textAlign: 'center',
+        marginBottom: 20,
     },
 
     saveButton: {
