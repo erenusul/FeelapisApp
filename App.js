@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen'; 
+import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import ProductDetailScreen from './screens/ProductDetailScreen';
 import CartScreen from './screens/CartScreen';
@@ -15,8 +15,6 @@ import ProfileScreen from './screens/ProfileScreen';
 
 import { CartProvider } from './CartContext';
 import { FavoriteProvider } from './FavoriteContext';
-
-import FallingStones from './components/FallingStones';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -73,7 +71,7 @@ export default function App() {
             <Stack.Navigator
               screenOptions={{
                 headerShown: false,
-                animation: 'fade',  // Burada animasyon ekledik
+                animation: 'fade',
               }}
             >
               {!isLoggedIn ? (

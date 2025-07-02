@@ -1,4 +1,3 @@
-// screens/HomeScreen.js
 import React, { useContext } from 'react';
 import {
   View,
@@ -118,5 +117,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
+  },
+  iconWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
