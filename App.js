@@ -16,9 +16,12 @@ import ProfileScreen from './screens/ProfileScreen';
 import { CartProvider } from './CartContext';
 import { FavoriteProvider } from './FavoriteContext';
 
+import PurchaseScreen from './screens/PurchaseScreen';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
+const CartStack = createNativeStackNavigator(); // Yeni stack
 
 function HomeStackScreen() {
   return (
@@ -26,6 +29,15 @@ function HomeStackScreen() {
       <HomeStack.Screen name="HomeMain" component={HomeScreen} />
       <HomeStack.Screen name="ProductDetail" component={ProductDetailScreen} />
     </HomeStack.Navigator>
+  );
+}
+
+function CartStackScreen() {
+  return (
+    <CartStack.Navigator screenOptions={{ headerShown: false }}>
+      <CartStack.Screen name="CartMain" component={CartScreen} />
+      <CartStack.Screen name="Purchase" component={PurchaseScreen} />
+    </CartStack.Navigator>
   );
 }
 
@@ -49,10 +61,12 @@ function MainTabs({ setIsLoggedIn }) {
     >
       <Tab.Screen name="Anasayfa" component={HomeStackScreen} />
       <Tab.Screen name="Favoriler" component={FavoritesScreen} />
-      <Tab.Screen name="Sepet" component={CartScreen} />
-      <Tab.Screen name="Profil">
-        {props => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
-      </Tab.Screen>
+      {/* Burada CartStackScreen'i verdik */}
+      <Tab.Screen name="Sepet" component={CartStackScreen} />
+      <Tab.Screen
+        name="Profil"
+        children={(props) => <ProfileScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+      />
     </Tab.Navigator>
   );
 }
@@ -80,9 +94,10 @@ export default function App() {
                   <Stack.Screen name="Register" component={RegisterScreen} />
                 </>
               ) : (
-                <Stack.Screen name="MainTabs">
-                  {props => <MainTabs {...props} setIsLoggedIn={setIsLoggedIn} />}
-                </Stack.Screen>
+                <Stack.Screen
+                  name="MainTabs"
+                  component={(props) => <MainTabs {...props} setIsLoggedIn={setIsLoggedIn} />}
+                />
               )}
             </Stack.Navigator>
           </NavigationContainer>

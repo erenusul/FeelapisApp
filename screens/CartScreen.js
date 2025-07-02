@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import { CartContext } from '../CartContext';
 
-export default function CartScreen() {
+export default function CartScreen({ navigation }) {
   const { cartItems, removeFromCart } = useContext(CartContext);
 
   return (
@@ -17,7 +17,10 @@ export default function CartScreen() {
           data={cartItems}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           renderItem={({ item }) => (
-            <View style={styles.item}>
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => navigation.navigate('Purchase', { product: item })}
+            >
               <Image source={item.image} style={styles.image} />
               <View style={styles.info}>
                 <Text style={styles.name}>{item.name}</Text>
@@ -26,7 +29,7 @@ export default function CartScreen() {
               <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.deleteBtn}>
                 <Ionicons name="trash-outline" size={24} color="#FF3B30" />
               </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           )}
           contentContainerStyle={{ paddingBottom: 40 }}
         />

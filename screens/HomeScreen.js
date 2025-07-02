@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
     paddingTop: 17,
     marginBottom: 16,
     color: '#FF8A00',
+    borderBottomColor: '#FF8A00',
+    borderBottomWidth: 2,
+    paddingBottom: 10,
     fontFamily: 'Pacifico', // Varsa kalabilir
   },
   card: {
