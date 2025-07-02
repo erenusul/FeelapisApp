@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 import { FavoriteContext } from '../FavoriteContext';
 import AnimatedHeart from '../components/AnimatedHeart';
@@ -15,7 +16,7 @@ const products = [
   {
     id: '1',
     name: 'Yeşim Taşı Kolye',
-    price: '₺920,80',
+    price: '₺250,00',
     image: require('../assets/yesim.png'),
   },
   {
@@ -24,7 +25,35 @@ const products = [
     price: '₺245,50',
     image: require('../assets/akuamarin.png'),
   },
+  {
+    id: '3',
+    name: 'Ametist Bileklik',
+    price: '₺250,00',
+    image: require('../assets/ametist.png'),
+  },
+  {
+    id: '4',
+    name: 'Lapis Lazuli Kolye',
+    price: '₺300,00',
+    image: require('../assets/lapis.png'),
+  },
+  {
+    id: '5',
+    name: 'Obsidyen Bileklik',
+    price: '₺275,00',
+    image: require('../assets/obsidyen.png'),
+  },
+  {
+    id: '6',
+    name: 'Tanzanit Kolye',
+    price: '₺280,00',
+    image: require('../assets/tanzanit.png'),
+  },
 ];
+
+const { width } = Dimensions.get('window');
+const CARD_MARGIN = 12;
+const CARD_WIDTH = (width - CARD_MARGIN * 3) / 2; // İki kart + marginleri
 
 export default function HomeScreen({ navigation }) {
   const { favorites, toggleFavorite } = useContext(FavoriteContext);
@@ -60,10 +89,11 @@ export default function HomeScreen({ navigation }) {
       <FlatList
         data={products}
         keyExtractor={(item) => item.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 16 }}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingVertical: 16, paddingHorizontal: CARD_MARGIN }}
         renderItem={renderItem}
+        columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: CARD_MARGIN }}
       />
     </SafeAreaView>
   );
@@ -76,14 +106,16 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '600',
-    marginLeft: 16,
+    textAlign: 'center',
+    paddingTop: 17,
     marginBottom: 16,
+    color: '#FF8A00',
+    fontFamily: 'Pacifico', // Varsa kalabilir
   },
   card: {
-    width: 160,
-    marginRight: 16,
+    width: CARD_WIDTH,
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 12,
@@ -117,9 +149,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
-  },
-  iconWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

@@ -21,6 +21,7 @@ export default function ProductDetailScreen({ route }) {
       position: Toast.positions.BOTTOM,
       backgroundColor: '#FF8A00',
       textColor: '#fff',
+      position: 100,
       shadow: true,
       animation: true,
     });
