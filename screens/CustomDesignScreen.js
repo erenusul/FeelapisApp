@@ -139,7 +139,7 @@ export default function CustomDesignScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#FFF9F0', paddingTop: 30 },
+    container: { flex: 1, backgroundColor: '#f3e3eb', paddingTop: 30 },
 
     titleWrapper: {
         alignItems: 'center',
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 22,
         fontWeight: '700',
-        color: '#FF8A00',
+        color: '#bb879e',
         marginBottom: 8,
         textAlign: 'center',
     },
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         height: 2,
         width: '70%',
         borderBottomWidth: 2,
-        borderBottomColor: '#FF8A00',
+        borderBottomColor: '#bb879e',
         borderRadius: 1,
         alignSelf: 'center',
         marginTop: 4,
@@ -169,14 +169,14 @@ const styles = StyleSheet.create({
     card: {
         width: CARD_WIDTH,
         borderWidth: 1,
-        borderColor: '#FF8A00',
+        borderColor: '#f3e3eb',
         borderRadius: 16,
         padding: 12,
         alignItems: 'center',
         backgroundColor: '#fff',
     },
     cardSelected: {
-        backgroundColor: '#FFF0D9',
+        backgroundColor: '#b5939a',
     },
 
     image: {
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 2,
-        borderColor: '#FF8A00',
+        borderColor: '#f3e3eb',
         borderRadius: 12,
         paddingVertical: 12,
         paddingHorizontal: 20,
@@ -213,8 +213,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     threadBoxSelected: {
-        backgroundColor: '#FF8A00',
-        shadowColor: '#FF8A00',
+        backgroundColor: '#bb879e',
+        shadowColor: '#bb879e',
         shadowOpacity: 0.5,
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 5 },
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     threadText: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#FF8A00',
+        color: '#bb879e',
     },
     threadTextSelected: {
         color: '#fff',
@@ -237,13 +237,13 @@ const styles = StyleSheet.create({
     totalPrice: {
         fontSize: 18,
         fontWeight: '700',
-        color: '#FF8A00',
+        color: '#bb879e',
         textAlign: 'center',
         marginBottom: 20,
     },
 
     saveButton: {
-        backgroundColor: '#FF8A00',
+        backgroundColor: '#bb879e',
         marginHorizontal: 30,
         paddingVertical: 14,
         borderRadius: 14,

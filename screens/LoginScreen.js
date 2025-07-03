@@ -75,7 +75,7 @@ export default function LoginScreen({ navigation, onLoginSuccess }) {
           <Text style={styles.registerLink}>Hesabınız yok mu? Kayıt olun</Text>
         </TouchableOpacity>
 
-        <Text style={styles.footerText}>Doğal taşlarla zarif takılar</Text>
+        <Text style={styles.footerText}>Zarif, güçlü, doğal: Seninin enerjin...</Text>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -93,18 +93,19 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 250,
-    height: 250,
+    width: 350,
+    height: 350,
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginBottom: -10,
+    marginBottom: -50,
   },
 
   title: {
     fontSize: 28,
     color: '#fff',
-    marginBottom: 40,
+    marginBottom: 50,
     fontWeight: '600',
+    paddingEnd: 20,
     textAlign: 'left',
   },
   input: {
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#FF8A00',
+    backgroundColor: '#cba7aa',
     borderRadius: 12,
     paddingVertical: 14,
     alignItems: 'center',

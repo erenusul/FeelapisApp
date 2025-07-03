@@ -90,12 +90,7 @@ export default function HomeScreen({ navigation }) {
       </View>
 
       {/* Kendi Tasarımını Oluştur Butonu */}
-      <TouchableOpacity
-        style={styles.customDesignButton}
-        onPress={() => navigation.navigate('CustomDesign')}
-      >
-        <Text style={styles.customDesignButtonText}>Kendi Tasarımını Oluştur</Text>
-      </TouchableOpacity>
+  
 
       <FlatList
         data={products}
@@ -113,7 +108,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FDF6ED',
+    backgroundColor: '#f3e4eb',
     paddingTop: 60,
   },
   titleWrapper: {
@@ -123,19 +118,19 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#FF8A00',
+    color: '#bb879e',
     marginTop: 15,
     fontFamily: 'Pacifico', // Varsa kalabilir
   },
   underline: {
     height: 2,
     width: '70%',       // Çizginin sağdan soldan kırpılmış genişliği
-    backgroundColor: '#FF8A00',
+    backgroundColor: '#bb879e',
     marginTop: 4,
     borderRadius: 1,
   },
   customDesignButton: {
-    backgroundColor: '#FF8A00',
+    backgroundColor: '#bb879e',
     paddingVertical: 14,
     marginHorizontal: 20,
     borderRadius: 12,
@@ -165,7 +160,7 @@ const styles = StyleSheet.create({
   },
   price: {
     marginTop: 4,
-    color: '#FF8A00',
+    color: '#6c5364',
     fontWeight: '600',
   },
   favoriteIcon: {
