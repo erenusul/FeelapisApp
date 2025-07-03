@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,13 @@ import {
   Platform,
   Image,
 } from 'react-native';
+
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 
 export default function LoginScreen({ navigation, onLoginSuccess }) {
   const [username, setUsername] = useState('');
@@ -28,6 +35,21 @@ export default function LoginScreen({ navigation, onLoginSuccess }) {
     }
   };
 
+  // Parlama animasyonu için opacity değeri
+  const opacity = useSharedValue(1);
+
+  useEffect(() => {
+    opacity.value = withRepeat(
+      withTiming(0.2, { duration: 1500}),
+      -1,
+      true
+    );
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
   return (
     <ImageBackground
       source={require('../assets/giris.png')}
@@ -38,9 +60,9 @@ export default function LoginScreen({ navigation, onLoginSuccess }) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
-        {/* Logo Eklendi */}
+        {/* Logo */}
         <Image
-          source={require('../assets/logoson1.png')}  // Burada logo dosyanın adı olabilir
+          source={require('../assets/logoson1.png')}
           style={styles.logo}
         />
 
@@ -75,7 +97,9 @@ export default function LoginScreen({ navigation, onLoginSuccess }) {
           <Text style={styles.registerLink}>Hesabınız yok mu? Kayıt olun</Text>
         </TouchableOpacity>
 
-        <Text style={styles.footerText}>Zarif, güçlü, doğal: Seninin enerjin...</Text>
+        <Animated.Text style={[styles.footerText, animatedStyle]}>
+          Zarif, güçlü, doğal: Senin enerjin...
+        </Animated.Text>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -91,15 +115,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     justifyContent: 'center',
   },
-
   logo: {
     width: 350,
     height: 350,
     resizeMode: 'contain',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: -20,
     marginBottom: -50,
   },
-
   title: {
     fontSize: 28,
     color: '#fff',
@@ -149,7 +172,11 @@ const styles = StyleSheet.create({
   footerText: {
     marginTop: 30,
     textAlign: 'center',
-    color: '#eee',
+    color: '#fff',
     fontStyle: 'italic',
+    fontWeight: '600',
+    fontSize: 14,
+    backgroundColor: 'transparent',
+    paddingHorizontal: 10,
   },
 });

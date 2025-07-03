@@ -23,10 +23,10 @@ export default function FavoritesScreen({ navigation }) {
       </View>
 
       <TouchableOpacity
-        onPress={() => toggleFavorite(item)} // ❗ Favorilerden kaldır
+        onPress={() => toggleFavorite(item)} // Favorilerden kaldırma işlevi
         style={styles.heartButton}
       >
-        <Ionicons name="heart" size={20} color="#FF8A00" />
+        <Ionicons name="heart" size={20} color="#bb879e" />
       </TouchableOpacity>
     </View>
   );
@@ -47,7 +47,7 @@ export default function FavoritesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF6EC',
+    backgroundColor: '#f3e3eb', // Açık mürdüm
     paddingTop: 60,
     paddingHorizontal: 16,
   },
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#bb879e', // Koyu mürdüm
   },
   itemContainer: {
     flexDirection: 'row',
@@ -77,9 +78,10 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: '600',
     fontSize: 16,
+    color: '#000',
   },
   price: {
-    color: '#FF8A00',
+    color: '#bb879e', // Koyu mürdüm
     marginTop: 4,
     fontWeight: 'bold',
   },

@@ -17,23 +17,19 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   const { cartItems } = useContext(CartContext);
   const { favorites } = useContext(FavoriteContext);
 
-  // Kullanıcı bilgileri (dummy)
   const [username, setUsername] = useState('erenusul');
   const [email, setEmail] = useState('erenusul@gmail.com');
 
-  // Şifre değiştirme modalı
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Kart ekleme modalı
   const [showCardModal, setShowCardModal] = useState(false);
   const [cardName, setCardName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [savedCards, setSavedCards] = useState([]);
 
-  // Şifre değiştirme fonksiyonu (dummy)
   const handleChangePassword = () => {
     if (newPassword.length < 4) {
       Alert.alert('Hata', 'Şifre en az 4 karakter olmalı.');
@@ -49,7 +45,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     setConfirmPassword('');
   };
 
-  // Kart ekleme fonksiyonu
   const handleAddCard = () => {
     if (!cardName || !cardNumber || !expiryDate) {
       Alert.alert('Hata', 'Lütfen tüm kart bilgilerini doldurun.');
@@ -65,7 +60,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     setExpiryDate('');
   };
 
-  // Kart silme fonksiyonu
   const handleDeleteCard = (id) => {
     Alert.alert(
       'Kart Sil',
@@ -83,22 +77,19 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     );
   };
 
-  // Çıkış yapma fonksiyonu
   const handleLogout = () => {
-    setIsLoggedIn(false); // Bu sayede login ekranına yönlenir
+    setIsLoggedIn(false);
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-      {/* Profil Foto */}
       <View style={styles.profilePhotoContainer}>
         <Image
-          source={require('../assets/Ekran Resmi 2025-07-01 16.31.45.png')} // Profil resmini uygun şekilde koyabilirsin
+          source={require('../assets/Ekran Resmi 2025-07-01 16.31.45.png')}
           style={styles.profilePhoto}
         />
       </View>
 
-      {/* Kullanıcı Bilgileri */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Profil Bilgileri</Text>
 
@@ -120,7 +111,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         </TouchableOpacity>
       </View>
 
-      {/* Sepet & Favoriler */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Sepet & Favoriler</Text>
         <View style={styles.row}>
@@ -133,7 +123,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         </View>
       </View>
 
-      {/* Ödeme Kartları */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Ödeme Kart Bilgileri</Text>
 
@@ -156,19 +145,17 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         ))}
 
         <TouchableOpacity
-          style={[styles.actionButton, { backgroundColor: '#FF8A00' }]}
+          style={[styles.actionButton, { backgroundColor: '#bb879e' }]}
           onPress={() => setShowCardModal(true)}
         >
           <Text style={[styles.actionButtonText, { color: '#fff' }]}>Kart Ekle</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Çıkış Yap */}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>Çıkış Yap</Text>
       </TouchableOpacity>
 
-      {/* Şifre Değiştirme Modal */}
       <Modal
         visible={showPasswordModal}
         transparent
@@ -195,7 +182,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
             />
 
             <TouchableOpacity
-              style={[styles.actionButton, { backgroundColor: '#FF8A00' }]}
+              style={[styles.actionButton, { backgroundColor: '#bb879e' }]}
               onPress={handleChangePassword}
             >
               <Text style={[styles.actionButtonText, { color: '#fff' }]}>Kaydet</Text>
@@ -211,7 +198,6 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
         </View>
       </Modal>
 
-      {/* Kart Ekleme Modal */}
       <Modal
         visible={showCardModal}
         transparent
@@ -243,7 +229,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
             />
 
             <TouchableOpacity
-              style={[styles.actionButton, { backgroundColor: '#FF8A00' }]}
+              style={[styles.actionButton, { backgroundColor: '#bb879e' }]}
               onPress={handleAddCard}
             >
               <Text style={[styles.actionButtonText, { color: '#fff' }]}>Kaydet</Text>
@@ -264,7 +250,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFF6EC',
+    backgroundColor: '#f3e3eb',
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 40,
@@ -295,7 +281,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 14,
-    color: '#222',
+    color: '#bb879e',
   },
   row: {
     flexDirection: 'row',
@@ -316,14 +302,14 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#FF8A00',
+    borderColor: '#bb879e',
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,
     fontSize: 16,
   },
   actionButton: {
-    backgroundColor: '#FF8A00',
+    backgroundColor: '#bb879e',
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
@@ -361,10 +347,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 20,
+    color: '#bb879e',
   },
   modalInput: {
     borderWidth: 1,
-    borderColor: '#FF8A00',
+    borderColor: '#bb879e',
     borderRadius: 12,
     padding: 12,
     marginBottom: 12,

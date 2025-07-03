@@ -11,7 +11,29 @@ import {
 
 export default function RegisterScreen({ navigation }) {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthdate, setBirthdate] = useState('');
   const [password, setPassword] = useState('');
+
+  const formatDate = (text) => {
+    const cleaned = text.replace(/\D/g, '');
+
+    let formatted = '';
+    if (cleaned.length <= 2) {
+      formatted = cleaned;
+    } else if (cleaned.length <= 4) {
+      formatted = cleaned.slice(0, 2) + '/' + cleaned.slice(2);
+    } else {
+      formatted =
+        cleaned.slice(0, 2) +
+        '/' +
+        cleaned.slice(2, 4) +
+        '/' +
+        cleaned.slice(4, 8);
+    }
+
+    return formatted;
+  };
 
   const handleRegister = () => {
     // Basit örnek: Giriş ekranına dön
@@ -31,6 +53,24 @@ export default function RegisterScreen({ navigation }) {
         onChangeText={setUsername}
         style={styles.input}
       />
+      
+      <TextInput
+        placeholder="E-posta"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        style={styles.input}
+      />
+
+      <TextInput
+        placeholder="Doğum Tarihi (GG/AA/YYYY)"
+        value={birthdate}
+        onChangeText={(text) => setBirthdate(formatDate(text))}
+        maxLength={10}
+        keyboardType="numeric"
+        style={styles.input}
+      />
+
       <TextInput
         placeholder="Şifre"
         value={password}
@@ -62,7 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    backgroundColor: '#FF8A00',
+    backgroundColor: '#bb879e',
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
@@ -74,7 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginLink: {
-    color: '#FF8A00',
+    color: '#bb879e',
     textAlign: 'center',
     fontWeight: '500',
   },

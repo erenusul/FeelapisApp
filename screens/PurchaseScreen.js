@@ -17,11 +17,9 @@ export default function PurchaseScreen({ route, navigation }) {
     const [quantity, setQuantity] = useState(1);
     const [selectedCard, setSelectedCard] = useState(null);
 
-    // Fiyatı temizleyip sayıya çeviriyoruz, NaN ise 0 olur
     const safePrice = (price) => {
         if (typeof price === 'number') return price;
         if (typeof price === 'string') {
-            // '₺250,00' → '250.00'
             const cleaned = price.replace(/[^\d,.-]/g, '').replace(',', '.');
             const parsed = parseFloat(cleaned);
             return isNaN(parsed) ? 0 : parsed;
@@ -58,7 +56,7 @@ export default function PurchaseScreen({ route, navigation }) {
                 {
                     text: 'Tamam',
                     onPress: () => {
-                        removeFromCart(product.id); // Sepetten çıkar
+                        removeFromCart(product.id);
                         navigation.goBack();
                     },
                 },
@@ -145,7 +143,7 @@ export default function PurchaseScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, backgroundColor: '#FFF9F0' },
+    container: { flex: 1, padding: 20, backgroundColor: '#f3e3eb' },
 
     header: {
         flexDirection: 'row',
@@ -157,8 +155,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#FF8A00',
-        borderBottomColor: '#FF8A00',
+        color: '#bb879e',
+        borderBottomColor: '#bb879e',
         borderBottomWidth: 2,
         paddingBottom: 8,
         marginTop: 50,
@@ -174,15 +172,15 @@ const styles = StyleSheet.create({
         right: 4,
     },
 
-    productName: { fontSize: 22, fontWeight: '600', marginBottom: 6 },
-    productPrice: { fontSize: 18, marginBottom: 20, color: '#FF8A00' },
+    productName: { fontSize: 22, fontWeight: '600', marginBottom: 6, color: '#bb879e' },
+    productPrice: { fontSize: 18, marginBottom: 20, color: '#bb879e' },
 
     section: {
         marginTop: 20,
         marginBottom: 10,
     },
 
-    label: { fontWeight: '600', marginBottom: 8 },
+    label: { fontWeight: '600', marginBottom: 8, color: '#bb879e' },
 
     quantityContainer: {
         flexDirection: 'row',
@@ -191,7 +189,7 @@ const styles = StyleSheet.create({
     quantityBtn: {
         width: 36,
         height: 36,
-        backgroundColor: '#FF8A00',
+        backgroundColor: '#bb879e',
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
@@ -200,7 +198,7 @@ const styles = StyleSheet.create({
 
     quantityInput: {
         borderWidth: 1,
-        borderColor: '#FF8A00',
+        borderColor: '#bb879e',
         marginHorizontal: 12,
         borderRadius: 8,
         padding: 8,
@@ -219,18 +217,18 @@ const styles = StyleSheet.create({
         borderColor: '#ddd',
     },
     cardSelected: {
-        borderColor: '#FF8A00',
-        backgroundColor: '#FFF0D9',
+        borderColor: '#bb879e',
+        backgroundColor: '#f3e3eb',
     },
-    cardText: { fontSize: 16 },
+    cardText: { fontSize: 16, color: '#bb879e' },
 
     buyButton: {
-        backgroundColor: '#FF8A00',
+        backgroundColor: '#bb879e',
         marginTop: 40,
         paddingVertical: 16,
         borderRadius: 14,
         alignItems: 'center',
-        shadowColor: '#FF8A00',
+        shadowColor: '#bb879e',
         shadowOffset: { width: 0, height: 8 },
         shadowOpacity: 0.35,
         shadowRadius: 16,

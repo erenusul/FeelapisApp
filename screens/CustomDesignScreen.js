@@ -18,6 +18,20 @@ const stones = [
     { id: '4', name: 'Lapis Lazuli', image: require('../assets/lapis.png'), price: 130 },
     { id: '5', name: 'Obsidyen', image: require('../assets/obsidyen.png'), price: 110 },
     { id: '6', name: 'Tanzanit', image: require('../assets/tanzanit.png'), price: 100 },
+    { id: '7', name: 'Gül Kuvars', image: require('../assets/gulkuvars.png'), price: 100 },
+    { id: '8', name: 'Çilek Kuvars', image: require('../assets/cilekkuvars.png'), price: 150 },
+    { id: '9', name: 'Howlit', image: require('../assets/howlit.png'), price: 120 },
+    { id: '10', name: 'Kaplan Gözü', image: require('../assets/kaplangozu.png'), price: 110 },
+    { id: '11', name: 'Kedi Gözü', image: require('../assets/kedigozukuvars.png'), price: 100 },
+    { id: '12', name: 'Kırımız Firuze Taşı', image: require('../assets/kirmizifiruze.png'), price: 100 },
+    { id: '13', name: 'Lavanta Kuvars', image: require('../assets/lavantakuvars.png'), price: 150 },
+    { id: '14', name: 'Malakit', image: require('../assets/malakit.png'), price: 120 },
+    { id: '15', name: 'Opal', image: require('../assets/opal.png'), price: 130 },
+    { id: '16', name: 'Sitrin', image: require('../assets/sitrin.png'), price: 110 },
+    { id: '17', name: 'Sodalit', image: require('../assets/sodalit.png'), price: 100 },
+    { id: '18', name: 'Turkuaz', image: require('../assets/turkuaz.png'), price: 110 },
+    { id: '19', name: 'Turmalin', image: require('../assets/turmalin.png'), price: 100 },
+    { id: '20', name: 'Yeşil Aventurin', image: require('../assets/yesilaventurin.png'), price: 100 },
 ];
 
 const threads = [

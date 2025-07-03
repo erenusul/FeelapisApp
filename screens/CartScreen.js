@@ -25,7 +25,6 @@ export default function CartScreen({ navigation }) {
         <View style={styles.info}>
           <Text style={styles.name}>{item.name}</Text>
 
-          {/* Özel tasarım ürünü ise taşlar ve ip bilgisini göster */}
           {item.isCustomDesign && item.stones && item.thread ? (
             <>
               <Text style={styles.details}>
@@ -40,7 +39,7 @@ export default function CartScreen({ navigation }) {
           <Text style={styles.price}>₺{price.toFixed(2)}</Text>
         </View>
         <TouchableOpacity onPress={() => removeFromCart(item.id)} style={styles.deleteBtn}>
-          <Ionicons name="trash-outline" size={24} color="#FF3B30" />
+          <Ionicons name="trash-outline" size={24} color="#bb879e" />
         </TouchableOpacity>
       </TouchableOpacity>
     );
@@ -67,7 +66,7 @@ export default function CartScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FDF6ED',
+    backgroundColor: '#f3e3eb', // Açık mürdüm
     paddingTop: 60,
     paddingHorizontal: 16,
   },
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
     marginBottom: 24,
+    color: '#bb879e', // Koyu mürdüm
   },
   emptyText: {
     textAlign: 'center',
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '500',
+    color: '#000',
   },
   details: {
     fontSize: 14,
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   price: {
     marginTop: 4,
-    color: '#FF8A00',
+    color: '#bb879e', // Koyu mürdüm
     fontWeight: '600',
   },
   deleteBtn: {

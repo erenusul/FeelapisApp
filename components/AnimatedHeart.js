@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -37,7 +37,7 @@ export default function AnimatedHeart({ active, onPress }) {
         <Ionicons
           name={active ? 'heart' : 'heart-outline'}
           size={24}
-          color={active ? '#FF3B30' : '#FF8A00'}
+          color={active ? '#bb879e' : '#bb879e'}
         />
       </Animated.View>
     </TouchableOpacity>
@@ -46,9 +46,9 @@ export default function AnimatedHeart({ active, onPress }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 36,             // Sabit genişlik
-    height: 36,            // Sabit yükseklik
-    borderRadius: 18,      // Tam yuvarlaklık için yarı genişlik
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',

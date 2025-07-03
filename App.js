@@ -89,9 +89,11 @@ function MainTabs({ setIsLoggedIn }) {
         tabBarActiveTintColor: '#bb879e',
         tabBarInactiveTintColor: 'gray',
         tabBarStyle: {
-          height: 60,
-          paddingBottom: 5,
-          paddingTop: 5,
+          height: 67,
+          paddingBottom: 0,
+          paddingTop: 2,
+          paddingLeft: 10,
+          paddingRight: 10,
         },
       })}
     >

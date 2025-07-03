@@ -8,14 +8,14 @@ import {
   ScrollView,
 } from 'react-native';
 import Toast from 'react-native-root-toast';
-import { CartContext } from '../CartContext'; // ✅ Sepet context'i
+import { CartContext } from '../CartContext';
 
 export default function ProductDetailScreen({ route }) {
   const { product } = route.params;
-  const { addToCart } = useContext(CartContext); // ✅ addToCart erişimi
+  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = () => {
-    addToCart(product); // ✅ Sepete ekle
+    addToCart(product);
     Toast.show('Sepete eklendi!', {
       duration: Toast.durations.SHORT,
       position: Toast.positions.BOTTOM,
@@ -51,7 +51,7 @@ export default function ProductDetailScreen({ route }) {
 const styles = StyleSheet.create({
   container: {
     paddingBottom: 24,
-    backgroundColor: '#FDF6ED',
+    backgroundColor: '#f3e3eb', // Açık renk olarak güncellendi
   },
   image: {
     width: '100%',
@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 8,
+    color: '#bb879e', // Mürdüm tonuna güncellenebilir
   },
   price: {
     fontSize: 20,
-    color: '#FF8A00',
+    color: '#bb879e', // Turuncu kalabilir ya da '#bb879e' yapılabilir
     fontWeight: 'bold',
     marginBottom: 16,
   },
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   button: {
-    backgroundColor: '#FF8A00',
+    backgroundColor: '#bb879e', // Turuncu kalabilir ya da '#bb879e' yapılabilir
     paddingVertical: 14,
     borderRadius: 12,
     alignItems: 'center',
