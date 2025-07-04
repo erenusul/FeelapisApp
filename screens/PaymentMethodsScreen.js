@@ -5,6 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -24,25 +28,46 @@ const paymentCards = [
     name: 'American Express **** 9012',
     icon: <FontAwesome5 name="cc-amex" size={24} color="#2E77BB" />,
   },
+  {
+    id: '4',
+    name: 'Kapıda Ödeme',
+    icon: <MaterialCommunityIcons name="cash" size={24} color="#4CAF50" />,
+  },
 ];
 
 export default function PaymentMethodsScreen({ route, navigation }) {
-  const { product, quantity, removeFromCart } = route.params;  // removeFromCart ve product da parametre olarak geldi
+  const { product, quantity, removeFromCart } = route.params;
   const [selectedCardId, setSelectedCardId] = useState(null);
+
+  // Adres ve telefon bilgileri tüm ödeme seçenekleri için
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handlePayment = () => {
     if (!selectedCardId) {
-      alert('Lütfen bir ödeme kartı seçin.');
+      alert('Lütfen bir ödeme yöntemi seçin.');
       return;
     }
-    alert('Ödeme işlemi başarılı! Teşekkürler.');
+    if (!address.trim()) {
+      alert('Lütfen teslimat adresinizi girin.');
+      return;
+    }
+    if (!phone.trim()) {
+      alert('Lütfen telefon numaranızı girin.');
+      return;
+    }
 
-    // Satın alınan ürün sepetten siliniyor
+    if (selectedCardId === '4') {
+      alert(`Kapıda ödeme seçildi.\nAdres: ${address}\nTelefon: ${phone}\nSiparişiniz kaydedildi!`);
+    } else {
+      alert('Ödeme işlemi başarılı! Teşekkürler.');
+    }
+
     if (product && removeFromCart) {
       removeFromCart(product.id);
     }
 
-    navigation.popToTop(); // Ana sayfaya dön
+    navigation.popToTop();
   };
 
   const renderCardItem = ({ item }) => {
@@ -67,19 +92,49 @@ export default function PaymentMethodsScreen({ route, navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Ödeme Yöntemleri</Text>
-      <FlatList
-        data={paymentCards}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCardItem}
-        contentContainerStyle={{ paddingVertical: 20 }}
-      />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Text style={styles.title}>Ödeme Yöntemleri</Text>
 
-      <TouchableOpacity style={styles.payButton} onPress={handlePayment}>
-        <Text style={styles.payButtonText}>Ödemeyi Tamamla</Text>
-      </TouchableOpacity>
-    </View>
+        <FlatList
+          data={paymentCards}
+          keyExtractor={(item) => item.id}
+          renderItem={renderCardItem}
+          contentContainerStyle={{ paddingVertical: 20 }}
+          scrollEnabled={false}
+        />
+
+        {/* Seçilen ödeme yöntemi fark etmeksizin adres ve telefon bilgisi */}
+        {selectedCardId && (
+          <View style={styles.formContainer}>
+            <Text style={styles.formLabel}>Teslimat Adresi</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Adresinizi girin"
+              value={address}
+              onChangeText={setAddress}
+              multiline
+            />
+
+            <Text style={styles.formLabel}>Telefon Numarası</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Telefon numaranızı girin"
+              value={phone}
+              onChangeText={setPhone}
+              keyboardType="phone-pad"
+            />
+          </View>
+        )}
+
+        <TouchableOpacity style={styles.payButton} onPress={handlePayment}>
+          <Text style={styles.payButtonText}>Ödemeyi Tamamla</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -122,6 +177,30 @@ const styles = StyleSheet.create({
     color: '#bb879e',
     fontWeight: '600',
   },
+  formContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 20,
+    elevation: 4,
+    paddingBlockEnd: 80,
+  },
+  formLabel: {
+    fontWeight: '600',
+    color: '#bb879e',
+    marginBottom: 8,
+    fontSize: 16,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#bb879e',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 16,
+    fontSize: 16,
+    backgroundColor: '#fff',
+    color: '#000',
+  },
   payButton: {
     backgroundColor: '#bb879e',
     borderRadius: 14,
@@ -134,7 +213,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 16,
     elevation: 10,
-    marginBottom: 20,
+    marginBottom: 50,
+    
   },
   payButtonText: {
     color: '#fff',

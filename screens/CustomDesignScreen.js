@@ -10,6 +10,7 @@ import {
     ScrollView,
 } from 'react-native';
 import { CartContext } from '../CartContext';
+import { FavoriteContext } from '../FavoriteContext'; // Ekledim favoriler için
 
 const stones = [
     { id: '1', name: 'Yeşim Taşı', image: require('../assets/yesim.png'), price: 100 },
@@ -48,6 +49,7 @@ export default function CustomDesignScreen() {
     const [selectedStones, setSelectedStones] = useState([]);
     const [selectedThread, setSelectedThread] = useState(null);
     const { addToCart } = useContext(CartContext);
+    const { favorites, toggleFavorite } = useContext(FavoriteContext); // Favoriler context
 
     const toggleStone = (id) => {
         if (selectedStones.includes(id)) {
@@ -88,6 +90,37 @@ export default function CustomDesignScreen() {
 
         addToCart(customProduct);
         alert(`Ürün sepete eklendi!\nToplam fiyat: ₺${totalPrice}`);
+
+        setSelectedStones([]);
+        setSelectedThread(null);
+    };
+
+    // Favorilere ekle butonu fonksiyonu
+    const handleAddToFavorites = () => {
+        if (selectedStones.length === 0) {
+            alert('Lütfen en az bir taş seçin.');
+            return;
+        }
+        if (!selectedThread) {
+            alert('Lütfen bir ip çeşidi seçin.');
+            return;
+        }
+
+        const selectedStoneObjects = stones.filter(s => selectedStones.includes(s.id));
+        const threadObject = threads.find(t => t.id === selectedThread);
+
+        const customProduct = {
+            id: `custom_${Date.now()}`,
+            name: 'Özel Tasarım Takı',
+            stones: selectedStoneObjects,
+            thread: threadObject,
+            price: Number(totalPrice),
+            isCustomDesign: true,
+            image: require('../assets/kisiseltasarim.png'),
+        };
+
+        toggleFavorite(customProduct);
+        alert('Ürün favorilere eklendi!');
 
         setSelectedStones([]);
         setSelectedThread(null);
@@ -148,6 +181,10 @@ export default function CustomDesignScreen() {
             <TouchableOpacity style={styles.saveButton} onPress={handleAddToCart}>
                 <Text style={styles.saveButtonText}>Sepete Ekle</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.favoriteButton} onPress={handleAddToFavorites}>
+                <Text style={styles.saveButtonText}>Favorilere Ekle</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 }
@@ -192,7 +229,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
-        // Gölge için Android
         elevation: 5,
     },
     cardSelected: {
@@ -235,7 +271,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 6,
-        // Gölge için Android
         elevation: 5,
     },
     threadBoxSelected: {
@@ -274,7 +309,16 @@ const styles = StyleSheet.create({
         paddingVertical: 14,
         borderRadius: 14,
         alignItems: 'center',
-        marginBottom: 30,
+        marginBottom: 15,
+    },
+
+    favoriteButton: {
+        backgroundColor: '#bb879e',
+        marginHorizontal: 30,
+        paddingVertical: 14,
+        borderRadius: 14,
+        alignItems: 'center',
+        marginBottom: 50,
     },
 
     saveButtonText: {
