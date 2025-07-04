@@ -9,9 +9,12 @@ import {
   Modal,
   ScrollView,
   Alert,
+  Linking,
 } from 'react-native';
 import { CartContext } from '../CartContext';
 import { FavoriteContext } from '../FavoriteContext';
+
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function ProfileScreen({ navigation, setIsLoggedIn }) {
   const { cartItems } = useContext(CartContext);
@@ -81,6 +84,21 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
     setIsLoggedIn(false);
   };
 
+  // WhatsApp buton fonksiyonu
+  const openWhatsApp = () => {
+    const phoneNumber = '+90XXXXXXXXXX'; // Buraya kendi numaranı ekle (ülke kodu dahil)
+    const url = `whatsapp://send?phone=${phoneNumber}`;
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (!supported) {
+          Alert.alert('Hata', 'WhatsApp yüklü değil veya desteklenmiyor.');
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch((err) => Alert.alert('Hata', 'Bir hata oluştu: ' + err));
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <View style={styles.profilePhotoContainer}>
@@ -110,6 +128,12 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
           <Text style={styles.actionButtonText}>Şifre Değiştir</Text>
         </TouchableOpacity>
       </View>
+
+      {/* WhatsApp İletişim Butonu */}
+      <TouchableOpacity style={styles.whatsappButton} onPress={openWhatsApp}>
+        <FontAwesome name="whatsapp" size={24} color="white" style={{ marginRight: 10 }} />
+        <Text style={styles.whatsappButtonText}>WhatsApp İletişim</Text>
+      </TouchableOpacity>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Sepet & Favoriler</Text>
@@ -250,7 +274,7 @@ export default function ProfileScreen({ navigation, setIsLoggedIn }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f3e3eb',
+    backgroundColor: '#fff5f8',
     flex: 1,
     paddingHorizontal: 20,
     paddingTop: 40,
@@ -282,6 +306,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 14,
     color: '#bb879e',
+    textAlign: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -319,6 +344,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     color: '#fff',
+  },
+  whatsappButton: {
+    flexDirection: 'row',       // Yanyana olması için
+    backgroundColor: '#25D366',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  whatsappButtonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 16,
   },
   logoutButton: {
     backgroundColor: '#E94B4B',

@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { View, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import React, { useState, useRef, useContext } from 'react';
+import { View, TouchableOpacity, StyleSheet, Animated, Text } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -14,11 +14,13 @@ import CartScreen from './screens/CartScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
-import { CartProvider } from './CartContext';
+import { CartProvider, CartContext } from './CartContext';
 import { FavoriteProvider } from './FavoriteContext';
 
 import PurchaseScreen from './screens/PurchaseScreen';
 import CustomDesignScreen from './screens/CustomDesignScreen';
+
+import PaymentMethodsScreen from './screens/PaymentMethodsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,7 +41,12 @@ function CartStackScreen() {
   return (
     <CartStack.Navigator screenOptions={{ headerShown: false }}>
       <CartStack.Screen name="CartMain" component={CartScreen} />
-      <CartStack.Screen name="Purchase" component={PurchaseScreen} />
+      <CartStack.Screen
+        name="Purchase"
+        component={PurchaseScreen}
+        options={{ animation: 'slide_from_right' }}
+      />
+      <CartStack.Screen name="PaymentMethods" component={PaymentMethodsScreen} />
     </CartStack.Navigator>
   );
 }
@@ -65,6 +72,7 @@ function CustomTabButton({ animateButton, scaleAnim }) {
 
 function MainTabs({ setIsLoggedIn }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const { cartItems } = useContext(CartContext);
 
   const animateButton = () => {
     Animated.sequence([
@@ -83,6 +91,21 @@ function MainTabs({ setIsLoggedIn }) {
           else if (route.name === 'Favoriler') iconName = 'heart-outline';
           else if (route.name === 'Sepet') iconName = 'cart-outline';
           else if (route.name === 'Profil') iconName = 'person-outline';
+
+          if (route.name === 'Sepet') {
+            return (
+              <View>
+                <Ionicons name={iconName} size={size} color={color} />
+                {cartItems.length > 0 && (
+                  <View style={styles.badge}>
+                    <Text style={styles.badgeText}>
+                      {cartItems.length > 99 ? '99+' : cartItems.length}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            );
+          }
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -142,6 +165,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 6,
     elevation: 6,
+  },
+  badge: {
+    position: 'absolute',
+    right: -6,
+    top: -3,
+    backgroundColor: '#E94B4B',
+    borderRadius: 10,
+    width: 18,
+    height: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 999,
+  },
+  badgeText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 10,
   },
 });
 

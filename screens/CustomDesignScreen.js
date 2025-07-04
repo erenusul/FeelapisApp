@@ -153,7 +153,7 @@ export default function CustomDesignScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f3e3eb', paddingTop: 30 },
+    container: { flex: 1, backgroundColor: '#fff5f8', paddingTop: 30 },
 
     titleWrapper: {
         alignItems: 'center',
@@ -182,12 +182,18 @@ const styles = StyleSheet.create({
 
     card: {
         width: CARD_WIDTH,
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: '#f3e3eb',
         borderRadius: 16,
         padding: 12,
         alignItems: 'center',
         backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        // Gölge için Android
+        elevation: 5,
     },
     cardSelected: {
         backgroundColor: '#b5939a',
@@ -217,7 +223,7 @@ const styles = StyleSheet.create({
     threadBox: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: 0,
         borderColor: '#f3e3eb',
         borderRadius: 12,
         paddingVertical: 12,
@@ -225,6 +231,12 @@ const styles = StyleSheet.create({
         minWidth: 120,
         justifyContent: 'center',
         backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 6,
+        // Gölge için Android
+        elevation: 5,
     },
     threadBoxSelected: {
         backgroundColor: '#bb879e',

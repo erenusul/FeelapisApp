@@ -47,16 +47,17 @@ export default function FavoritesScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3e3eb', // Açık mürdüm
+    backgroundColor: '#fff5f8', // Açık mürdüm
     paddingTop: 60,
     paddingHorizontal: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    fontSize: 22,
+    fontWeight: '600',
+    marginBottom: 24,
     color: '#bb879e', // Koyu mürdüm
   },
+
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -65,6 +66,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 10,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    // Gölge için Android
+    elevation: 5,
   },
   image: {
     width: 60,

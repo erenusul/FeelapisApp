@@ -66,9 +66,10 @@ export default function CartScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3e3eb', // Açık mürdüm
+    backgroundColor: '#fff5f8', // Açık mürdüm
     paddingTop: 60,
     paddingHorizontal: 16,
+
   },
   title: {
     fontSize: 22,
@@ -90,6 +91,12 @@ const styles = StyleSheet.create({
     padding: 12,
     elevation: 2,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    // Gölge için Android
+    elevation: 5,
   },
   image: {
     width: 60,
