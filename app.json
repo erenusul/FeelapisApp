@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "FeelapisApp",
+    "slug": "FeelapisApp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logoson1.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/logoson1.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f3e3eb"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
